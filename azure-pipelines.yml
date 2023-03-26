@@ -2,7 +2,7 @@
 - task: BrowserStackConfig@0
   inputs:
     BrowserStackServiceEndPoint: 'BrowserStacks'
-    browserstacksLocal: true
+    browserstackLocal: true
 - script:
   inputs:
     npm install
