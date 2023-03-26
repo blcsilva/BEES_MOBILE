@@ -3,13 +3,11 @@
   inputs:
     BrowserStackServiceEndPoint: 'BrowserStacks'
     browserstacksLocal: true
-
 - script:
   inputs:
     npm install
     npm start &
   displayName: 'npm install start node based web application'
-
 - script:
     gem install selenium-webdriver
     ruby testScript/automate_test.rb
