@@ -3,7 +3,6 @@
   inputs:
     BrowserStackServiceEndPoint: 'BrowserStacks'
     browserstackLocal: true
-    bsLocalOptions: '{"verbose": true, "forceLocal": true}'
 - script:
     npm install
     npm start &
