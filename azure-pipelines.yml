@@ -1,5 +1,3 @@
-write a funcional azure-pipeline.yml to deploy a ios ipa xcode and test with browserstack 
-
 # An Azure Pipeline YAML file to deploy an iOS IPA Xcode and test it with Browserstack
 
 # Trigger
