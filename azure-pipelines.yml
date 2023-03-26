@@ -1,16 +1,31 @@
-# Starter pipeline
-- task: BrowserStackConfig@0
-  inputs:
-    BrowserStackServiceEndPoint: 'BrowserStacks'
-    browserstackLocal: true
-- script:
-    npm install
-    npm start &
-  displayName: 'npm install start node based web application'
-- script:
-    gem install selenium-webdriver
-    ruby testScript/automate_test.rb
-  displayName: 'install ruby depedency and run test script'
+# Starter azure-pipelines.yml
 
-- task: BrowserStackStopLocal@0
-- task: BrowserStackResults@0
+trigger:
+- master
+
+pool:
+  vmImage: 'macOS-10.15'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+
+- task: Xcode@5
+  inputs:
+    xcWorkspacePath: 'ios/MyApp.xcworkspace'
+    scheme: 'MyApp'
+    xcToolchain: 'default'
+    configuration: '$(buildConfiguration)'
+    sdk: 'iphoneos'
+    exportMethod: 'ad-hoc'
+
+- task: CopyFiles@2
+  inputs:
+    contents: '*/.ipa'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
