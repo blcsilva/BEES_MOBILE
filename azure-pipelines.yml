@@ -1,34 +1,35 @@
-# An Azure Pipeline YAML file to deploy an iOS IPA Xcode and test it with Browserstack
-
-# Trigger
+```
 trigger:
-  branches:
-    include:
-    - master
+  - master
 
-# Variables
-variables:
-  browserstack_username: $(browserstack_username)
-  browserstack_accesskey: $(browserstack_accesskey)
-
-# Pool
 pool:
-  vmImage: 'macOS-latest'
+  vmImage: 'macos-latest'
 
-# Steps
 steps:
-- task: Xcode@5
-  displayName: 'Build iOS IPA'
-  inputs:
-    xcWorkspacePath: '$(workspacePath)'
-    scheme: '$(scheme)'
-    exportMethod: 'ad-hoc'
-    signingOption: 'manual'
-    signingIdentity: '$(signingIdentity)'
-    provisioningProfileUuid: '$(provisioningProfileUuid)'
-    packageApp: true
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish iOS IPA'
-  inputs:
-    PathtoPublish: '$(build.artifactStagingDirectory)'
+  - script: |
+      npm install -g appium
+      appium --version
+    displayName: 'Install and check Appium version'
+
+  - script: |
+      npm install -g browserstack-local
+      browserstack-local --version
+    displayName: 'Install and check Browserstack-local version'
+
+  - script: |
+      npm install -g appium-doctor
+      appium-doctor --ios
+    displayName: 'Install and check Appium-doctor version'
+
+  - script: |
+      npm install -g appium-xcuitest-driver
+      appium-xcuitest-driver --version
+    displayName: 'Install and check Appium-xcuitest-driver version'
+
+  - script: |
+      curl -u "username:accesskey" -X POST "https://api-cloud.browser
