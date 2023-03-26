@@ -1,29 +1,37 @@
-# Starter azure-pipelines.yml
+write a funcional azure-pipeline.yml to deploy a ios ipa xcode and test with browserstack 
 
+# An Azure Pipeline YAML file to deploy an iOS IPA Xcode and test it with Browserstack
+
+# Trigger
 trigger:
-- master
+  branches:
+    include:
+    - master
 
-pool:
-  vmImage: 'macOS-10.15'
-
+# Variables
 variables:
-  buildConfiguration: 'Release'
+  browserstack_username: $(browserstack_username)
+  browserstack_accesskey: $(browserstack_accesskey)
 
+# Pool
+pool:
+  vmImage: 'macOS-latest'
+
+# Steps
 steps:
 - task: Xcode@5
+  displayName: 'Build iOS IPA'
   inputs:
-    actions: 'build'
-    scheme: ''
-    sdk: 'iphoneos'
-    configuration: 'Release'
-    xcWorkspacePath: '**/*.xcodeproj/project.xcworkspace'
-    xcodeVersion: 'default' # Options: 8, 9, 10, 11, 12, default, specifyPath
-- task: CopyFiles@2
-  inputs:
-    contents: '*/.ipa'
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    xcWorkspacePath: '$(workspacePath)'
+    scheme: '$(scheme)'
+    exportMethod: 'ad-hoc'
+    signingOption: 'manual'
+    signingIdentity: '$(signingIdentity)'
+    provisioningProfileUuid: '$(provisioningProfileUuid)'
+    packageApp: true
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish iOS IPA'
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: 'drop'
+    PathtoPublish: '$(build.artifactStagingDirectory)'
+    Artifact
