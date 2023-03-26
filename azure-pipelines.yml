@@ -3,6 +3,11 @@
   inputs:
     BrowserStackServiceEndPoint: 'BrowserStacks'
     browserstackLocal: true
+    bsLocalOptions: '{"verbose": true, "forceLocal": true}'
+- task: BrowserStackConfig@0
+  inputs:
+    BrowserStackServiceEndPoint: 'BrowserStacks'
+    browserstackLocal: true
 - script:
   inputs:
     npm install
