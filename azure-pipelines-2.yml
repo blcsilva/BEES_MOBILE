@@ -1,0 +1,34 @@
+trigger:
+  - master
+
+pool:
+  vmImage: 'macos-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm install -g appium
+      appium --version
+    displayName: 'Install and check Appium version'
+
+  - script: |
+      npm install -g browserstack-local
+      browserstack-local --version
+    displayName: 'Install and check Browserstack-local version'
+
+  - script: |
+      npm install -g appium-doctor
+      appium-doctor --ios
+    displayName: 'Install and check Appium-doctor version'
+
+  - script: |
+      npm install -g appium-xcuitest-driver
+      appium-xcuitest-driver --version
+    displayName: 'Install and check Appium-xcuitest-driver version'
+
+  - script: |
+      curl -u "username:accesskey" -X POST "https://api-cloud.browser
